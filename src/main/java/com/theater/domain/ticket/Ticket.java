@@ -2,17 +2,27 @@ package com.theater.domain.ticket;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.sql.Timestamp;
 
 //티켓 정보
 @Data
-@AllArgsConstructor
 public class Ticket {
 
     private Integer key; //티켓번호
+    private String memberId; //회원아이디
     private Integer scheduleKey; //상영일정번호
     private Integer screenKey; //상영관번호
     private Integer seat; //좌석번호
-    private Integer reservationKey; //예매번호
     private Integer price; //티켓가격
+    private Timestamp reservationTime; //결제시간
 
+    public Ticket(String memberId, Integer scheduleKey, Integer screenKey, Integer seat, Integer price) {
+        this.memberId = memberId;
+        this.scheduleKey = scheduleKey;
+        this.screenKey = screenKey;
+        this.seat = seat;
+        this.price = price;
+    }
 }
