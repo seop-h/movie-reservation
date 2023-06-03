@@ -1,15 +1,13 @@
 package com.theater.domain.movie;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 
 //영화 정보
-//TODO 상영등급 추가 고려. enum으로 생성할 건지도 고려
+//TODO 상영등급 추가 고려. enum으로 생성할 건지도 고려 -> 회원 클래스에 나이 필드가 추가되면 이것도 추가
 @Data
-@AllArgsConstructor
 public class Movie {
 
     private Integer key; //영화번호
@@ -17,9 +15,18 @@ public class Movie {
     private Integer runningTime; //상영시간(분 단위)
     private String director; //감독
     private List<String> actors; //출연배우 리스트
-    //TODO genre를 enum 클래스로 변경할지 생각
-    private String genre; //장르
+    private Genre genre; //장르
     private String description; //영화소개
-    private DateFormat releaseDate; //개봉일
+    //TODO Date 타입 맞는지 체크
+    private Date releaseDate; //개봉일
 
+    public Movie(String title, Integer runningTime, String director, List<String> actors, Genre genre, String description, Date releaseDate) {
+        this.title = title;
+        this.runningTime = runningTime;
+        this.director = director;
+        this.actors = actors;
+        this.genre = genre;
+        this.description = description;
+        this.releaseDate = releaseDate;
+    }
 }
