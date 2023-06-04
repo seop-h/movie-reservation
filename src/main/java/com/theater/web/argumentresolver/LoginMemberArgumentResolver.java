@@ -45,7 +45,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
             throw new IllegalAccessException("로그인하지 않은 사용자가 접근");
         }
 
-        String loginMemberId = (String) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        String loginMemberId = (String) session.getAttribute(SessionConst.LOGIN_MEMBER_ID);
         if (loginMemberId == null) {
             throw new IllegalAccessException("로그인하지 않은 사용자가 접근");
         }
