@@ -1,6 +1,7 @@
 package com.theater.web.member;
 
 import com.theater.domain.member.Member;
+import com.theater.domain.member.dto.MemberPasswordDto;
 import com.theater.domain.member.service.MemberService;
 import com.theater.web.argumentresolver.Login;
 import com.theater.domain.member.dto.MemberRegister;
@@ -15,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/members")
@@ -47,7 +50,15 @@ public class MemberController {
         return new MemberResult("회원 정보 변경 성공", MemberRegister.changeToShow(updateMember));
     }
 
-    @PostConstruct
+    @PatchMapping("/password") //비밀번호 변경. 변경 시 자동 로그아웃
+    public ResponseResult updatePassword(@Login String memberId, @RequestBody MemberPasswordDto memberDto, HttpServletRequest request) {
+        memberService.modify(memberId, memberDto.getPassword());
+        HttpSession session = request.getSession(false);
+        session.invalidate();
+        return new CorrectResult("비밀번호를 변경했습니다. 새로운 비밀번호로 다시 로그인 해주세요");
+    }
+
+   @PostConstruct
     private void initMemberSave() { //초기 회원 데이터 세팅(메모리 사용 시 필요)
         log.info("[Member] initialize Member Repository");
         memberService.join(new Member("111", "test1!", "aaa", "010-0000-0000", "aaa@gmail.com"));

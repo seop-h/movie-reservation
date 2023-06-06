@@ -24,6 +24,11 @@ public class MemberService {
         return memberRepository.update(memberId, memberDto);
     }
 
+    public void modify(String memberId, String password) {
+        Member member = memberRepository.findById(memberId);
+        member.setPassword(password);
+    }
+
     public Boolean withdraw(Member member) {
         return memberRepository.delete(member);
     }
