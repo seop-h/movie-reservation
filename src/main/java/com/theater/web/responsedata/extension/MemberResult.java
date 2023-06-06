@@ -2,7 +2,7 @@ package com.theater.web.responsedata.extension;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.theater.domain.member.Member;
-import com.theater.web.member.MemberShowDto;
+import com.theater.domain.member.dto.MemberShowDto;
 import com.theater.web.responsedata.ResponseResult;
 import lombok.Getter;
 

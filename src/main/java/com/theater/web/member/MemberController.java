@@ -3,6 +3,9 @@ package com.theater.web.member;
 import com.theater.domain.member.Member;
 import com.theater.domain.member.service.MemberService;
 import com.theater.web.argumentresolver.Login;
+import com.theater.domain.member.dto.MemberRegister;
+import com.theater.domain.member.dto.MemberShowDto;
+import com.theater.domain.member.dto.MemberUpdateDto;
 import com.theater.web.responsedata.extension.CorrectResult;
 import com.theater.web.responsedata.ResponseResult;
 import com.theater.web.responsedata.extension.ErrorResult;
@@ -32,11 +35,16 @@ public class MemberController {
         return new CorrectResult("회원가입에 성공했습니다.");
     }
 
-    @GetMapping //자신의 회원 정보 조회
-    public ResponseResult showMember(@Login String memberId) {
-        Member member = memberService.findMember(memberId);
-        MemberShowDto memberDto = MemberRegister.change(member);
+    @GetMapping //자신의 회원 정보 조회(아이디, 이름, 휴대폰번호, 이메일, 보유금액)
+    public ResponseResult showMember(@Login Member member) {
+        MemberShowDto memberDto = MemberRegister.changeToShow(member);
         return new MemberResult("회원 조회 성공", memberDto);
+    }
+
+    @PutMapping //회원 정보 수정(이름, 휴대폰번호, 이메일)
+    public ResponseResult updateMember(@Login String memberId, @RequestBody MemberUpdateDto memberDto) {
+        Member updateMember = memberService.modify(memberId, memberDto);
+        return new MemberResult("회원 정보 변경 성공", MemberRegister.changeToShow(updateMember));
     }
 
     @PostConstruct

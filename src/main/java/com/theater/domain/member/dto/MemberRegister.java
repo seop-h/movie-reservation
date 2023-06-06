@@ -1,10 +1,10 @@
-package com.theater.web.member;
+package com.theater.domain.member.dto;
 
 import com.theater.domain.member.Member;
 
 public class MemberRegister {
 
-    static MemberShowDto change(Member member) {
+    public static MemberShowDto changeToShow(Member member) {
         return new MemberShowDto(
                 member.getId(),
                 member.getName(),
@@ -13,5 +13,4 @@ public class MemberRegister {
                 member.getMoney()
         );
     }
-
 }

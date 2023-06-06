@@ -1,6 +1,7 @@
 package com.theater.domain.member.service;
 
 import com.theater.domain.member.Member;
+import com.theater.domain.member.dto.MemberUpdateDto;
 import com.theater.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,8 @@ public class MemberService {
         return memberRepository.findById(memberId);
     }
 
-    public Member modify(String memberId, Member member) {
-        return memberRepository.update(memberId, member);
+    public Member modify(String memberId, MemberUpdateDto memberDto) {
+        return memberRepository.update(memberId, memberDto);
     }
 
     public Boolean withdraw(Member member) {

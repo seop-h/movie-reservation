@@ -1,6 +1,7 @@
 package com.theater.domain.member.repository;
 
 import com.theater.domain.member.Member;
+import com.theater.domain.member.dto.MemberUpdateDto;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;
@@ -23,9 +24,9 @@ public class MemoryMemberRepository implements MemberRepository{
     }
 
     @Override
-    public Member update(String memberId, Member member) {
+    public Member update(String memberId, MemberUpdateDto memberDto) {
         Member findMember = store.get(memberId);
-        updateMemberInfo(findMember, member); //findMember의 정보를 member로 변경(money는 변경 X)
+        updateMemberInfo(findMember, memberDto); //findMember의 정보를 member로 변경(money는 변경 X)
         return store.get(memberId);
     }
 
@@ -42,10 +43,9 @@ public class MemoryMemberRepository implements MemberRepository{
         return findMember.getMoney();
     }
 
-    private void updateMemberInfo(Member findMember, Member member) {
-        findMember.setPassword(member.getPassword());
-        findMember.setName(member.getName());
-        findMember.setPhone(member.getPhone());
-        findMember.setEmail(member.getEmail());
+    private void updateMemberInfo(Member findMember, MemberUpdateDto memberDto) {
+        findMember.setName(memberDto.getName());
+        findMember.setPhone(memberDto.getPhone());
+        findMember.setEmail(memberDto.getEmail());
     }
 }
