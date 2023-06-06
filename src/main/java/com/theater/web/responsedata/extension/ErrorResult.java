@@ -15,7 +15,7 @@ public class ErrorResult extends ResponseResult {
 
     private Integer errorCode; //에러 발생 시 해당 에러에 대응하는 코드
 
-    public ErrorResult(Integer errorCode, String message) {
+    public ErrorResult(String message, Integer errorCode) {
         super(message);
         this.errorCode = errorCode;
     }
