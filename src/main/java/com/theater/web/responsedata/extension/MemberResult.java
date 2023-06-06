@@ -12,6 +12,7 @@ public class MemberResult extends ResponseResult {
 
     private Member member;
     private MemberShowDto memberShowDto;
+    private Integer money;
 
     public MemberResult(String message, Member member) {
         super(message);
@@ -21,5 +22,10 @@ public class MemberResult extends ResponseResult {
     public MemberResult(String message, MemberShowDto memberShowDto) {
         super(message);
         this.memberShowDto = memberShowDto;
+    }
+
+    public MemberResult(String message, Integer money) {
+        super(message);
+        this.money = money;
     }
 }

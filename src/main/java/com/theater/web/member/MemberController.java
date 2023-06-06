@@ -1,12 +1,9 @@
 package com.theater.web.member;
 
 import com.theater.domain.member.Member;
-import com.theater.domain.member.dto.MemberPasswordDto;
+import com.theater.domain.member.dto.*;
 import com.theater.domain.member.service.MemberService;
 import com.theater.web.argumentresolver.Login;
-import com.theater.domain.member.dto.MemberRegister;
-import com.theater.domain.member.dto.MemberShowDto;
-import com.theater.domain.member.dto.MemberUpdateDto;
 import com.theater.web.responsedata.extension.CorrectResult;
 import com.theater.web.responsedata.ResponseResult;
 import com.theater.web.responsedata.extension.ErrorResult;
@@ -56,6 +53,12 @@ public class MemberController {
         HttpSession session = request.getSession(false);
         session.invalidate();
         return new CorrectResult("비밀번호를 변경했습니다. 새로운 비밀번호로 다시 로그인 해주세요");
+    }
+
+    @PatchMapping("/money")
+    public ResponseResult loadMoney(@Login String memberId, @RequestBody MemberMoneyDto memberDto) {
+        Integer loadedMoney = memberService.loadMoney(memberId, memberDto.getMoney());
+        return new MemberResult("보유금액 충전 성공", loadedMoney);
     }
 
    @PostConstruct
