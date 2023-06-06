@@ -10,6 +10,7 @@ import lombok.Getter;
  *      HTTP 상태 코드랑 유사하게 가지만 조금 더 세부적으로 나눠서, 에러 코드만 보고도 어느 컨트롤러에서 발생한 어떤 에러인지 알 수 있도록.
  *      ex) 카카오 rest api: code는 별다른 규칙이 없는 음수로 정함
  */
+
 @Getter //getter가 있어야 컨트롤러에서 json 형태로 응답을 보낼 수 있음
 public class ErrorResult extends ResponseResult {
 
