@@ -55,10 +55,25 @@ public class MemberController {
         return new CorrectResult("비밀번호를 변경했습니다. 새로운 비밀번호로 다시 로그인 해주세요");
     }
 
-    @PatchMapping("/money")
+    @PatchMapping("/money") //금액 충전
     public ResponseResult loadMoney(@Login String memberId, @RequestBody MemberMoneyDto memberDto) {
         Integer loadedMoney = memberService.loadMoney(memberId, memberDto.getMoney());
         return new MemberResult("보유금액 충전 성공", loadedMoney);
+    }
+
+    @DeleteMapping //회원 탈퇴. 탈퇴 시 비밀번호 입력 -> 탈퇴 완료 후 세션 만료시킴
+    public ResponseResult withdrawMember(@Login Member member, @RequestBody MemberPasswordDto memberDto,
+                                         HttpServletRequest request) {
+        String password = memberDto.getPassword();
+        if (member.getPassword().equals(password)) {
+            //TODO 회원과 관련된 티켓 정보도 모두 삭제
+            memberService.withdraw(member);
+            HttpSession session = request.getSession();
+            session.invalidate();
+            return new CorrectResult("탈퇴를 성공적으로 진행했습니다.");
+        } else {
+            return new ErrorResult("비밀번호가 맞지 않습니다.", -251);
+        }
     }
 
    @PostConstruct
