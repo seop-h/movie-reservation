@@ -2,6 +2,7 @@ package com.theater.web.member;
 
 import com.theater.domain.member.Member;
 import com.theater.domain.member.service.MemberService;
+import com.theater.web.responsedata.extension.CorrectResult;
 import com.theater.web.responsedata.ResponseResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +26,7 @@ public class MemberController {
     public ResponseResult signUp(@RequestBody Member member) {
         Member saveMember = memberService.join(member);
         log.info("save new member={}", saveMember);
-        return new ResponseResult("회원가입에 성공했습니다.");
+        return new CorrectResult("회원가입에 성공했습니다.");
     }
 
     @PostConstruct
