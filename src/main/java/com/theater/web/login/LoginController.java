@@ -33,7 +33,7 @@ public class LoginController {
         Member loginMember = memberService.findMember(form.getId());
         log.info("form={}, loginMember={}", form, loginMember);
         if (loginMember == null || !loginMember.getPassword().equals(form.getPassword()))
-            return new ErrorResult(-101, "아이디 또는 비밀번호가 일치하지 않습니다.");
+            return new ErrorResult("아이디 또는 비밀번호가 일치하지 않습니다.", -101);
 
         log.info("make new session");
         HttpSession session = request.getSession();
@@ -46,7 +46,7 @@ public class LoginController {
     public ResponseResult logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute(SessionConst.LOGIN_MEMBER_ID) == null) {
-            return new ErrorResult(-111, "잘못된 요청입니다.");
+            return new ErrorResult("잘못된 요청입니다.", -111);
         }
         session.invalidate();
         return new CorrectResult("로그아웃 했습니다.");
