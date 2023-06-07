@@ -2,6 +2,7 @@ package com.theater.domain.movie;
 
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -16,17 +17,15 @@ public class Movie {
     private String director; //감독
     private List<String> actors; //출연배우 리스트
     private Genre genre; //장르
-    private String description; //영화소개
     //TODO Date 타입 맞는지 체크
-    private Date releaseDate; //개봉일
+    private LocalDate releaseDate; //개봉일
 
-    public Movie(String title, Integer runningTime, String director, List<String> actors, Genre genre, String description, Date releaseDate) {
+    public Movie(String title, Integer runningTime, String director, List<String> actors, Genre genre, LocalDate releaseDate) {
         this.title = title;
         this.runningTime = runningTime;
         this.director = director;
         this.actors = actors;
         this.genre = genre;
-        this.description = description;
         this.releaseDate = releaseDate;
     }
 }
