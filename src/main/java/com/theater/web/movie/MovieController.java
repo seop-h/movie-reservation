@@ -2,15 +2,21 @@ package com.theater.web.movie;
 
 import com.theater.domain.movie.Genre;
 import com.theater.domain.movie.Movie;
+import com.theater.domain.movie.MovieSearchCond;
 import com.theater.domain.movie.service.MovieService;
+import com.theater.web.responsedata.ResponseResult;
+import com.theater.web.responsedata.extension.MovieResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/movies")
@@ -19,6 +25,23 @@ import java.util.Date;
 public class MovieController {
 
     private final MovieService movieService;
+
+    @GetMapping //쿼리 파라미터로 받은 데이터에 해당하는 영화 조회. 쿼리 파라미터가 없으면 모든 영화 조회
+    public ResponseResult findMovies(@RequestParam(required = false) String title,
+                                     @RequestParam(required = false) String director,
+                                     @RequestParam(required = false) String actor) {
+
+        List<Movie> movies;
+        if (title == null && director == null && actor == null) {
+            movies = movieService.findMovies();
+        }
+
+        MovieSearchCond cond = new MovieSearchCond(title, director, actor);
+        movies = movieService.findMovies(cond);
+
+        return new MovieResult("영화 조회 성공", movies);
+
+    }
 
     @PostConstruct
     private void initMovieSave() {//초기 영화 데이터 세팅(메모리 사용 시 필요)

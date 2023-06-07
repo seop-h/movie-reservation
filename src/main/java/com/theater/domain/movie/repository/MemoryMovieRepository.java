@@ -59,13 +59,6 @@ public class MemoryMovieRepository implements MovieRepository {
                     }
                     return false;
                 }) //영화 배우 리스트 중 검색한 배우 문자열을 포함하고 있는 값만 필터링
-                .filter(movie -> {
-                    if (cond.getGenre() == null) {
-                        return true;
-                    } else {
-                        return movie.getGenre() == cond.getGenre();
-                    }
-                }) //검색한 장르가 영화장르와 같은 값만 필터링
                 .collect(Collectors.toList()); //스트림 -> 리스트로 변환해서 반환
     }
 
@@ -88,7 +81,6 @@ public class MemoryMovieRepository implements MovieRepository {
         findMovie.setDirector(movie.getDirector());
         findMovie.setActors(movie.getActors());
         findMovie.setGenre(movie.getGenre());
-        findMovie.setDescription(movie.getDescription());
         findMovie.setReleaseDate(movie.getReleaseDate());
     }
 }
