@@ -46,8 +46,7 @@ public class MovieController {
 
     @PostConstruct
     private void initMovieSave() {//초기 영화 데이터 세팅(메모리 사용 시 필요)
-
-        String date = "Wed Apr 12 00:00:00 KST 2023";
+        log.info("[Movie] initialize Movie Repository");
 
         movieService.addMovie(new Movie("존 윅4", 169, "채드 스타헬스키",
                 saveActors("키아누 리브스", "빌 스카스가드"), Genre.ACTION,
