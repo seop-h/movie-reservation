@@ -3,6 +3,8 @@ package com.theater.web.theater;
 import com.theater.domain.theater.Schedule;
 import com.theater.domain.theater.ScheduleSearchCond;
 import com.theater.domain.theater.Screen;
+import com.theater.domain.theater.dto.ScheduleRegister;
+import com.theater.domain.theater.dto.ScheduleShowDto;
 import com.theater.domain.theater.service.ScheduleService;
 import com.theater.domain.theater.service.ScreenService;
 import com.theater.domain.ticket.service.TicketService;
@@ -31,18 +33,24 @@ public class TheaterController {
     private final ScreenService screenService;
     private final ScheduleService scheduleService;
 
+    private final ScheduleRegister register;
+
     @GetMapping //쿼리 파라미터로 받은 데이터에 해당하는 상영일정 조회. 쿼리 파라미터가 없으면 모든 상영일정 조회
     public ResponseResult findMovieSchedule(@RequestParam(required = false) Integer movie,
                                             @RequestParam(required = false) Integer screen) {
 
         if (movie == null && screen == null) {
             log.info("모든 상영일정 조회");
-            return new TheaterResult("상영일정 조회 성공", scheduleService.findAllSchedule());
+            List<Schedule> scheduleList = scheduleService.findAllSchedule();
+            List<ScheduleShowDto> dtoList = register.changeToShowList(scheduleList);
+            return new TheaterResult("상영일정 조회 성공", dtoList);
         }
 
         log.info("조건에 맞는 상영일정 조회");
         ScheduleSearchCond cond = new ScheduleSearchCond(movie, screen);
-        return new TheaterResult("상영일정 조회 성공", scheduleService.findAllSchedule(cond));
+        List<Schedule> scheduleList = scheduleService.findAllSchedule(cond);
+        List<ScheduleShowDto> dtoList = register.changeToShowList(scheduleList);
+        return new TheaterResult("상영일정 조회 성공", dtoList);
     }
 
     @PostConstruct
