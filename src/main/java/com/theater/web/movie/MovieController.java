@@ -4,6 +4,7 @@ import com.theater.domain.movie.Genre;
 import com.theater.domain.movie.Movie;
 import com.theater.domain.movie.MovieSearchCond;
 import com.theater.domain.movie.service.MovieService;
+import com.theater.domain.theater.Schedule;
 import com.theater.web.responsedata.ResponseResult;
 import com.theater.web.responsedata.extension.MovieResult;
 import lombok.RequiredArgsConstructor;
@@ -32,16 +33,14 @@ public class MovieController {
                                      @RequestParam(required = false) String director,
                                      @RequestParam(required = false) String actor) {
 
-        List<Movie> movies;
         if (title == null && director == null && actor == null) {
-            movies = movieService.findMovies();
+            log.info("모든 영화 조회");
+            return new MovieResult("영화 조회 성공", movieService.findMovies());
         }
 
+        log.info("조건에 맞는 영화 조회");
         MovieSearchCond cond = new MovieSearchCond(title, director, actor);
-        movies = movieService.findMovies(cond);
-
-        return new MovieResult("영화 조회 성공", movies);
-
+        return new MovieResult("영화 조회 성공", movieService.findMovies(cond));
     }
 
     @PostConstruct
