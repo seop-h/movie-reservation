@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Component //TODO Component를 굳이 붙일 필요가 있나
 @RequiredArgsConstructor
 public class ScheduleRegister {
 

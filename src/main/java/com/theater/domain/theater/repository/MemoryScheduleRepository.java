@@ -2,6 +2,9 @@ package com.theater.domain.theater.repository;
 
 import com.theater.domain.theater.Schedule;
 import com.theater.domain.theater.ScheduleSearchCond;
+import com.theater.domain.theater.dto.ScheduleRegister;
+import com.theater.domain.theater.dto.ScheduleShowDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -11,10 +14,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Repository
+@RequiredArgsConstructor
 public class MemoryScheduleRepository implements ScheduleRepository {
 
     private static final Map<Integer, Schedule> store = new ConcurrentHashMap<>();
     private static Integer scheduleSequence = 0;
+
+    private final ScheduleRegister register;
 
     @Override
     public Schedule save(Schedule schedule) {
@@ -29,13 +35,15 @@ public class MemoryScheduleRepository implements ScheduleRepository {
     }
 
     @Override
-    public List<Schedule> findAll() {
-        return new ArrayList<>(store.values());
+    public List<ScheduleShowDto> findAll() {
+        ArrayList<Schedule> scheduleList = new ArrayList<>(store.values());
+        List<ScheduleShowDto> dtoList = register.changeToShowList(scheduleList);
+        return dtoList;
     }
 
     @Override
-    public List<Schedule> findAll(ScheduleSearchCond cond) {
-        return store.values().stream()
+    public List<ScheduleShowDto> findAll(ScheduleSearchCond cond) {
+        List<Schedule> scheduleList = store.values().stream()
                 .filter(schedule -> {
                     if (cond.getMovieKey() == null) {
                         return true;
@@ -49,6 +57,9 @@ public class MemoryScheduleRepository implements ScheduleRepository {
                     return (schedule.getScreenKey() == cond.getScreenKey());
                 })
                 .collect(Collectors.toList());
+
+        List<ScheduleShowDto> dtoList = register.changeToShowList(scheduleList);
+        return dtoList;
     }
 
     @Override
