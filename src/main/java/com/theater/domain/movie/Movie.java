@@ -3,7 +3,6 @@ package com.theater.domain.movie;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 //영화 정보
