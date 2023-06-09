@@ -2,7 +2,11 @@ package com.theater.domain.ticket.service;
 
 import com.theater.domain.member.Member;
 import com.theater.domain.member.repository.MemberRepository;
+import com.theater.domain.theater.Schedule;
+import com.theater.domain.theater.repository.ScheduleRepository;
+import com.theater.domain.theater.repository.ScreenRepository;
 import com.theater.domain.ticket.Ticket;
+import com.theater.domain.ticket.dto.TicketShowDto;
 import com.theater.domain.ticket.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,13 +19,18 @@ public class TicketService {
 
     private final TicketRepository ticketRepository;
     private final MemberRepository memberRepository;
+    private final ScheduleRepository scheduleRepository;
 
-    public Ticket buy(Ticket ticket) {
-        Member member = memberRepository.findById(ticket.getMemberId());
+    public Ticket buy(String memberId, Ticket ticket) {
+        Member member = memberRepository.findById(memberId);
         int money = member.getMoney();
-        int price = ticket.getPrice();
+        Schedule schedule = scheduleRepository.findByKey(ticket.getScheduleKey());
+        int price = schedule.getPrice();
         if (money >= price) {
             member.setMoney(money - price);
+            ticket.setScreenKey(schedule.getScreenKey());
+            ticket.setMemberId(memberId);
+            ticket.setPrice(price);
             return ticketRepository.save(ticket);
         } else {
             return null;

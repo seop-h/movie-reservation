@@ -1,6 +1,9 @@
 package com.theater.domain.ticket.repository;
 
 import com.theater.domain.ticket.Ticket;
+import com.theater.domain.ticket.dto.TicketRegister;
+import com.theater.domain.ticket.dto.TicketShowDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
@@ -11,10 +14,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Repository
+@RequiredArgsConstructor
 public class MemoryTicketRepository implements TicketRepository {
 
     private static final Map<Integer, Ticket> store = new ConcurrentHashMap<>();
     private static Integer ticketSequence = 0;
+
+    private final TicketRegister register;
 
     @Override
     public Ticket save(Ticket ticket) {
