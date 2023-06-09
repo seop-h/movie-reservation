@@ -24,4 +24,6 @@ public interface ScheduleRepository {
 
     Boolean delete(Schedule schedule); //상영일정 삭제
 
+    void occupySeat(Schedule schedule, Integer seat);
+
 }

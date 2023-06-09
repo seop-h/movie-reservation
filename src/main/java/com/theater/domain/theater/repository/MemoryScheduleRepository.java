@@ -75,6 +75,13 @@ public class MemoryScheduleRepository implements ScheduleRepository {
         return false;
     }
 
+    @Override
+    public void occupySeat(Schedule schedule, Integer seat) {
+        char[] seatArray = schedule.getSeatState().toCharArray();
+        seatArray[seat - 1] = '1';
+        schedule.setSeatState(String.valueOf(seatArray));
+    }
+
     private void updateScheduleInfo(Schedule schedule, Schedule findSchedule) {
         findSchedule.setMovieKey(schedule.getMovieKey());
         findSchedule.setScreenKey(schedule.getScreenKey());

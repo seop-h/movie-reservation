@@ -32,7 +32,7 @@ public class TicketController {
 
         Ticket ticket = ticketService.buy(memberId, form);
         if (ticket == null) {
-            return new CorrectResult("잔액이 부족합니다");
+            return new CorrectResult("잔액이 부족하거나 이미 예매된 좌석입니다.");
         }
         return new TicketResult("티켓 구매 성공", register.changeToShow(ticket));
 

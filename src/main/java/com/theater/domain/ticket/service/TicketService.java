@@ -4,9 +4,7 @@ import com.theater.domain.member.Member;
 import com.theater.domain.member.repository.MemberRepository;
 import com.theater.domain.theater.Schedule;
 import com.theater.domain.theater.repository.ScheduleRepository;
-import com.theater.domain.theater.repository.ScreenRepository;
 import com.theater.domain.ticket.Ticket;
-import com.theater.domain.ticket.dto.TicketShowDto;
 import com.theater.domain.ticket.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,17 +22,20 @@ public class TicketService {
     public Ticket buy(String memberId, Ticket ticket) {
         Member member = memberRepository.findById(memberId);
         int money = member.getMoney();
+
         Schedule schedule = scheduleRepository.findByKey(ticket.getScheduleKey());
         int price = schedule.getPrice();
-        if (money >= price) {
-            member.setMoney(money - price);
-            ticket.setScreenKey(schedule.getScreenKey());
-            ticket.setMemberId(memberId);
-            ticket.setPrice(price);
-            return ticketRepository.save(ticket);
-        } else {
+
+        String seatState = schedule.getSeatState();
+        if (money < price || seatState.charAt(ticket.getSeat() - 1) == '1') {
             return null;
         }
+        member.setMoney(money - price);
+        scheduleRepository.occupySeat(schedule, ticket.getSeat());
+        ticket.setScreenKey(schedule.getScreenKey());
+        ticket.setMemberId(memberId);
+        ticket.setPrice(price);
+        return ticketRepository.save(ticket);
     }
 
     public Ticket findMyTicket(Integer ticketKey) {
