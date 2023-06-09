@@ -26,4 +26,6 @@ public interface ScheduleRepository {
 
     void occupySeat(Schedule schedule, Integer seat);
 
+    void dropSeat(Schedule schedule, Integer seat);
+
 }

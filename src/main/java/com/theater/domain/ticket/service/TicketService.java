@@ -53,8 +53,12 @@ public class TicketService {
     public Boolean refund(Integer ticketKey) {
         Ticket ticket = ticketRepository.findByKey(ticketKey);
         if (ticket == null) return false;
+
         Member member = memberRepository.findById(ticket.getMemberId());
         member.setMoney(member.getMoney() + ticket.getPrice());
+
+        Schedule schedule = scheduleRepository.findByKey(ticket.getScheduleKey());
+        scheduleRepository.dropSeat(schedule, ticket.getSeat());
         return ticketRepository.delete(ticket);
     }
 

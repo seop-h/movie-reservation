@@ -26,7 +26,6 @@ public class TicketController {
 
     private final TicketRegister register;
 
-    //TODO 티켓 구입하면 상영관 좌석 예약 표시하는 기능 마저 구현
     @PostMapping
     public ResponseResult buyTicket(@Login String memberId, @RequestBody Ticket form) {
 
@@ -50,8 +49,8 @@ public class TicketController {
         }
         if (ticket != null) { //티켓 번호로 조회
             Ticket myTicket = ticketService.findMyTicket(ticket);
-            if (!myTicket.getMemberId().equals(memberId)) {
-                log.info("myTicket.getMemberId != memberId: myTicket={}, memberId={}", myTicket.getMemberId(), memberId);
+            if (myTicket == null || !myTicket.getMemberId().equals(memberId)) {
+                log.info("myTicket.getMemberId != memberId: myTicket={}, memberId={}", myTicket, memberId);
                 return new ErrorResult("잘못된 요청입니다. 내가 구매한 티켓이 아닙니다.", -401);
             }
             return new TicketResult("티켓 번호로 내 티켓 조회 성공", register.changeToShow(myTicket));
@@ -61,6 +60,15 @@ public class TicketController {
             return new TicketResult("아이디와 상영일정으로 내 티켓 조회 성공", register.changeToShow(myTicket));
         }
         throw new IllegalArgumentException("쿼리 파라미터 관련 조건이 일치하지 않음");
+    }
+
+    @DeleteMapping("/{ticketKey}")
+    public ResponseResult refundTicket(@Login String memberId, @PathVariable Integer ticketKey) {
+        Ticket myTicket = ticketService.findMyTicket(ticketKey);
+        if (myTicket == null || !myTicket.getMemberId().equals(memberId))
+            return new ErrorResult("잘못된 요청입니다. 내가 구매한 티켓이 아닙니다.", -411);
+        ticketService.refund(ticketKey);
+        return new CorrectResult("티켓을 성공적으로 환불했습니다.");
     }
 
 }
