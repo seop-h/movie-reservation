@@ -1,6 +1,7 @@
 package com.theater.domain.ticket.repository;
 
 import com.theater.domain.ticket.Ticket;
+import com.theater.domain.ticket.dto.TicketShowDto;
 
 import java.util.List;
 

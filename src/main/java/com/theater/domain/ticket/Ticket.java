@@ -8,6 +8,8 @@ import java.sql.Timestamp;
 
 //티켓 정보
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Ticket {
 
     private Integer key; //티켓번호
@@ -18,11 +20,9 @@ public class Ticket {
     private Integer price; //티켓가격
     private Timestamp reservationTime; //결제시간
 
-    public Ticket(String memberId, Integer scheduleKey, Integer screenKey, Integer seat, Integer price) {
-        this.memberId = memberId;
+    public Ticket(Integer scheduleKey, Integer screenKey, Integer seat) {
         this.scheduleKey = scheduleKey;
         this.screenKey = screenKey;
         this.seat = seat;
-        this.price = price;
     }
 }
