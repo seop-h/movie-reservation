@@ -16,7 +16,6 @@ import java.util.List;
 public class ScheduleRegister {
 
     private final MovieService movieService;
-    private final ScreenService screenService;
 
     public List<ScheduleShowDto> changeToShowList(List<Schedule> scheduleList) {
         List<ScheduleShowDto> dtoList = new ArrayList<>();
@@ -28,7 +27,6 @@ public class ScheduleRegister {
 
     private ScheduleShowDto changeToShow(Schedule schedule) {
         Movie movie = movieService.findMovie(schedule.getMovieKey());
-        Screen screen = screenService.findScreen(schedule.getScreenKey());
 
         return new ScheduleShowDto(
                 schedule.getKey(),
@@ -38,7 +36,7 @@ public class ScheduleRegister {
                 movie.getGenre(),
                 movie.getReleaseDate(),
                 schedule.getScreenKey(),
-                screen.getSeats().size(),
+                schedule.getSeatState(),
                 schedule.getStartTime()
         );
     }

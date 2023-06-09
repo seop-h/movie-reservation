@@ -29,8 +29,7 @@ public class ScheduleShowDto {
 
     //상영관 정보
     private Integer screenKey; //상영관 번호
-    //TODO 해당 상영일정에 남은 좌석 수 표시로 변경
-    private Integer seats; //상영관 전체 좌석 수
+    private String seatState; //상영관 좌석 예약 상태
 
     private LocalDateTime startTime; //상영시작일
 }
