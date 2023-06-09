@@ -57,11 +57,11 @@ public class TheaterController {
 
         log.info("[Theater > Schedule] initialize Schedule Repository");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        scheduleService.addSchedule(new Schedule(1, 1, LocalDateTime.parse("2023-06-08 10:30", formatter)));
-        scheduleService.addSchedule(new Schedule(2, 1, LocalDateTime.parse("2023-06-08 14:30", formatter)));
-        scheduleService.addSchedule(new Schedule(3, 2, LocalDateTime.parse("2023-06-08 09:30", formatter)));
-        scheduleService.addSchedule(new Schedule(4, 2, LocalDateTime.parse("2023-06-08 13:30", formatter)));
-        scheduleService.addSchedule(new Schedule(5, 3, LocalDateTime.parse("2023-06-08 11:30", formatter)));
+        scheduleService.addSchedule(new Schedule(1, 1, 10000, LocalDateTime.parse("2023-06-08 10:30", formatter)));
+        scheduleService.addSchedule(new Schedule(2, 1, 12000, LocalDateTime.parse("2023-06-08 14:30", formatter)));
+        scheduleService.addSchedule(new Schedule(3, 2, 10000, LocalDateTime.parse("2023-06-08 09:30", formatter)));
+        scheduleService.addSchedule(new Schedule(4, 2, 12000, LocalDateTime.parse("2023-06-08 13:30", formatter)));
+        scheduleService.addSchedule(new Schedule(5, 3, 12000, LocalDateTime.parse("2023-06-08 11:30", formatter)));
     }
 
 }

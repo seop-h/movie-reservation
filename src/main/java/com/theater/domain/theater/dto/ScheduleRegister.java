@@ -37,6 +37,7 @@ public class ScheduleRegister {
                 movie.getReleaseDate(),
                 schedule.getScreenKey(),
                 schedule.getSeatState(),
+                schedule.getPrice(),
                 schedule.getStartTime()
         );
     }

@@ -31,5 +31,6 @@ public class ScheduleShowDto {
     private Integer screenKey; //상영관 번호
     private String seatState; //상영관 좌석 예약 상태
 
+    private Integer price; //예매 정가
     private LocalDateTime startTime; //상영시작일
 }
