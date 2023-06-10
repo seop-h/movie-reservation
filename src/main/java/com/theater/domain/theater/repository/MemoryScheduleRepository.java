@@ -20,8 +20,6 @@ public class MemoryScheduleRepository implements ScheduleRepository {
     private static final Map<Integer, Schedule> store = new ConcurrentHashMap<>();
     private static Integer scheduleSequence = 0;
 
-    private final ScheduleRegister register;
-
     @Override
     public Schedule save(Schedule schedule) {
         schedule.setKey(++scheduleSequence);
@@ -35,15 +33,13 @@ public class MemoryScheduleRepository implements ScheduleRepository {
     }
 
     @Override
-    public List<ScheduleShowDto> findAll() {
-        ArrayList<Schedule> scheduleList = new ArrayList<>(store.values());
-        List<ScheduleShowDto> dtoList = register.changeToShowList(scheduleList);
-        return dtoList;
+    public List<Schedule> findAll() {
+        return new ArrayList<>(store.values());
     }
 
     @Override
-    public List<ScheduleShowDto> findAll(ScheduleSearchCond cond) {
-        List<Schedule> scheduleList = store.values().stream()
+    public List<Schedule> findAll(ScheduleSearchCond cond) {
+        return store.values().stream()
                 .filter(schedule -> {
                     if (cond.getMovieKey() == null) {
                         return true;
@@ -57,9 +53,6 @@ public class MemoryScheduleRepository implements ScheduleRepository {
                     return (schedule.getScreenKey() == cond.getScreenKey());
                 })
                 .collect(Collectors.toList());
-
-        List<ScheduleShowDto> dtoList = register.changeToShowList(scheduleList);
-        return dtoList;
     }
 
     @Override

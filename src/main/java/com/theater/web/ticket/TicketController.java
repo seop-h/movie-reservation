@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//TODO Schedule에서 register 관련된 것도 TicketController처럼 바꾸기
 @RestController
 @RequestMapping("/tickets")
 @RequiredArgsConstructor

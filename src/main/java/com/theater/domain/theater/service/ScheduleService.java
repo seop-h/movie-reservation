@@ -23,11 +23,11 @@ public class ScheduleService {
         return scheduleRepository.findByKey(scheduleKey);
     }
 
-    public List<ScheduleShowDto> findAllSchedule() {
+    public List<Schedule> findAllSchedule() {
         return scheduleRepository.findAll();
     }
 
-    public List<ScheduleShowDto> findAllSchedule(ScheduleSearchCond cond) {
+    public List<Schedule> findAllSchedule(ScheduleSearchCond cond) {
         return scheduleRepository.findAll(cond);
     }
 
