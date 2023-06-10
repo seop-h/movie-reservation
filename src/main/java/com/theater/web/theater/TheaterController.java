@@ -35,17 +35,20 @@ public class TheaterController {
 
     private final ScheduleRegister register;
 
-    @GetMapping //쿼리 파라미터로 받은 데이터에 해당하는 상영일정 조회. 쿼리 파라미터가 없으면 모든 상영일정 조회
+    @GetMapping //쿼리 파라미터로 받은 데이터에 해당하는 상영일정 조회. 쿼리 파라미터가 없으면 모든 상영일정 조회(에러 발생시 errorCode: -400번대)
     public ResponseResult findMovieSchedule(@RequestParam(required = false) Integer movie,
                                             @RequestParam(required = false) Integer screen) {
 
-        if (movie == null && screen == null) {
+        if (movie == null && screen == null) { //쿼리 파라미터가 없으면 모든 상영일정 조회
             log.info("모든 상영일정 조회");
+            //조회한 상영일정을 사용자가 보기 용이한 스펙으로 변경하여 반환 ( register.changeToShowList() )
             return new TheaterResult("상영일정 조회 성공", register.changeToShowList(scheduleService.findAllSchedule()));
         }
 
+        //쿼리 파라미터가 있으면 그 조건에 맞는 상영일정 조회
         log.info("조건에 맞는 상영일정 조회");
-        ScheduleSearchCond cond = new ScheduleSearchCond(movie, screen);
+        ScheduleSearchCond cond = new ScheduleSearchCond(movie, screen); //쿼리 파라미터에 따라 조건 설정
+        //조회한 상영일정을 사용자가 보기 용이한 스펙으로 변경하여 반환 ( register.changeToShowList() )
         return new TheaterResult("상영일정 조회 성공", register.changeToShowList(scheduleService.findAllSchedule(cond)));
     }
 

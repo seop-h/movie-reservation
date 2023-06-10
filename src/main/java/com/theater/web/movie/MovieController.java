@@ -28,19 +28,20 @@ public class MovieController {
 
     private final MovieService movieService;
 
-    @GetMapping //쿼리 파라미터로 받은 데이터에 해당하는 영화 조회. 쿼리 파라미터가 없으면 모든 영화 조회
+    @GetMapping //쿼리 파라미터로 받은 데이터에 해당하는 영화 조회. 쿼리 파라미터가 없으면 모든 영화 조회(에러 발생시 errorCode: -300번대)
     public ResponseResult findMovies(@RequestParam(required = false) String title,
                                      @RequestParam(required = false) String director,
                                      @RequestParam(required = false) String actor) {
 
-        if (title == null && director == null && actor == null) {
+        if (title == null && director == null && actor == null) { //쿼리 파라미터가 없으면 모든 영화 조회
             log.info("모든 영화 조회");
             return new MovieResult("영화 조회 성공", movieService.findMovies());
         }
 
+        //쿼리 파라미터가 있으면 그 조건에 맞는 영화 조회
         log.info("조건에 맞는 영화 조회");
-        MovieSearchCond cond = new MovieSearchCond(title, director, actor);
-        return new MovieResult("영화 조회 성공", movieService.findMovies(cond));
+        MovieSearchCond cond = new MovieSearchCond(title, director, actor); //쿼리 파라미터에 따른 조건 설정
+        return new MovieResult("영화 조회 성공", movieService.findMovies(cond)); //그 조건을 넘겨주며 영화 조회
     }
 
     @PostConstruct
