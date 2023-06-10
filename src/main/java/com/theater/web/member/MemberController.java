@@ -3,6 +3,8 @@ package com.theater.web.member;
 import com.theater.domain.member.Member;
 import com.theater.domain.member.dto.*;
 import com.theater.domain.member.service.MemberService;
+import com.theater.domain.ticket.Ticket;
+import com.theater.domain.ticket.service.TicketService;
 import com.theater.web.argumentresolver.Login;
 import com.theater.web.responsedata.extension.CorrectResult;
 import com.theater.web.responsedata.ResponseResult;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RestController
 @RequestMapping("/members")
@@ -23,8 +26,8 @@ import javax.servlet.http.HttpSession;
 public class MemberController {
 
     private final MemberService memberService;
+    private final TicketService ticketService;
 
-    //TODO 동일한 아이디로 회원가입하는 경우 막기
     @PostMapping //회원가입
     public ResponseResult signUp(@RequestBody Member member) {
         if (memberService.findMember(member.getId()) != null) {
@@ -66,7 +69,12 @@ public class MemberController {
                                          HttpServletRequest request) {
         String password = memberDto.getPassword();
         if (member.getPassword().equals(password)) {
-            //TODO 회원과 관련된 티켓 정보도 모두 삭제
+            //회원과 관련된 티켓 정보도 모두 삭제
+            List<Ticket> myAllTickets = ticketService.findMyAllTickets(member.getId());
+            for (Ticket ticket : myAllTickets) {
+                ticketService.refund(ticket.getKey());
+            }
+
             memberService.withdraw(member);
             HttpSession session = request.getSession();
             session.invalidate();

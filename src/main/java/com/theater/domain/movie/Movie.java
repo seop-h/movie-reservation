@@ -16,7 +16,6 @@ public class Movie {
     private String director; //감독
     private List<String> actors; //출연배우 리스트
     private Genre genre; //장르
-    //TODO Date 타입 맞는지 체크
     private LocalDate releaseDate; //개봉일
 
     public Movie(String title, Integer runningTime, String director, List<String> actors, Genre genre, LocalDate releaseDate) {
