@@ -26,6 +26,8 @@ import java.util.List;
 @Slf4j
 public class MovieController {
 
+    //로그인되지 않은 사용자 접근 시: errorCode = -300
+
     private final MovieService movieService;
 
     @GetMapping //쿼리 파라미터로 받은 데이터에 해당하는 영화 조회. 쿼리 파라미터가 없으면 모든 영화 조회(에러 발생시 errorCode: -300번대)

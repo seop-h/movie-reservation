@@ -30,6 +30,8 @@ import java.util.List;
 @Slf4j
 public class TheaterController {
 
+    //로그인되지 않은 사용자 접근 시: errorCode = -400
+
     private final ScreenService screenService;
     private final ScheduleService scheduleService;
 

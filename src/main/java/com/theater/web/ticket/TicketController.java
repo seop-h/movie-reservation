@@ -21,6 +21,8 @@ import java.util.List;
 @Slf4j
 public class TicketController {
 
+    //로그인되지 않은 사용자 접근 시: errorCode = -500
+
     private final TicketService ticketService;
 
     private final TicketRegister register;
