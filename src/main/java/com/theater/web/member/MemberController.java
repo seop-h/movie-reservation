@@ -28,7 +28,7 @@ public class MemberController {
     private final MemberService memberService;
     private final TicketService ticketService;
 
-    //로그인되지 않은 사용자 접근 시: 컨트롤러 관게없이 errorCode = -200
+    //로그인되지 않은 사용자 접근 시: errorCode = -200
 
     @PostMapping //회원가입(에러 발생시 errorCode: -200번대)
     public ResponseResult signUp(@RequestBody Member member) {

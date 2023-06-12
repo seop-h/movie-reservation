@@ -26,7 +26,7 @@ import java.util.List;
 @Slf4j
 public class MovieController {
 
-    //로그인되지 않은 사용자 접근 시: 컨트롤러 관게없이 errorCode = -200
+    //로그인되지 않은 사용자 접근 시: errorCode = -300
 
     private final MovieService movieService;
 
