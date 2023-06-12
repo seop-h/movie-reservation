@@ -27,7 +27,7 @@ public class MovieControllerExceptionAdvice {
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
 
-        log.info("[loginExHandler] status={}, errorCode={}", status, errorCode);
+        log.info("[movieExHandler] status={}, errorCode={}", status, errorCode);
         ErrorResult errorResult = new ErrorResult(e.getMessage(), errorCode);
         return new ResponseEntity(errorResult, status);
     }

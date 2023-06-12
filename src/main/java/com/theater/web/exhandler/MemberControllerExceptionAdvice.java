@@ -23,11 +23,11 @@ public class MemberControllerExceptionAdvice {
         if (e instanceof IllegalAccessException) {
             status = HttpStatus.BAD_REQUEST;
             errorCode = -200;
-        } else { //위의 조건문에서 처리하지 못한, 알 수 없는 에러가 발생한 경우 Http 상태코드=500, errorCode=-199 로 반환
+        } else { //위의 조건문에서 처리하지 못한, 알 수 없는 에러가 발생한 경우 Http 상태코드=500, errorCode=-299 로 반환
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
 
-        log.info("[loginExHandler] status={}, errorCode={}", status, errorCode);
+        log.info("[memberExHandler] status={}, errorCode={}", status, errorCode);
         ErrorResult errorResult = new ErrorResult(e.getMessage(), errorCode);
         return new ResponseEntity(errorResult, status);
     }
