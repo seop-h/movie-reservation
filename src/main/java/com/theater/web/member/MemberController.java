@@ -28,6 +28,8 @@ public class MemberController {
     private final MemberService memberService;
     private final TicketService ticketService;
 
+    //로그인되지 않은 사용자 접근 시: 컨트롤러 관게없이 errorCode = -200
+
     @PostMapping //회원가입(에러 발생시 errorCode: -200번대)
     public ResponseResult signUp(@RequestBody Member member) {
         if (memberService.findMember(member.getId()) != null) { //이미 해당 아이디로 누군가 회원가입을 했으면 오류 반환
@@ -76,7 +78,7 @@ public class MemberController {
             }
 
             memberService.withdraw(member); //회원 탈퇴 진행
-            HttpSession session = request.getSession();
+            HttpSession session = request.getSession(false);
             session.invalidate(); //세션 만료시킴
             return new CorrectResult("탈퇴를 성공적으로 진행했습니다.");
         } else { //비밀번호가 일치하지 않으면 오류 반환
