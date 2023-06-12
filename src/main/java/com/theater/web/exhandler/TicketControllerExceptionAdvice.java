@@ -7,8 +7,11 @@ import com.theater.web.ticket.TicketController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import javax.security.sasl.AuthenticationException;
 
 @RestControllerAdvice(assignableTypes = {TicketController.class}) //TicketController에서 예외가 발생하면 모두 이곳으로 옴
 @Slf4j
@@ -19,19 +22,27 @@ public class TicketControllerExceptionAdvice {
         log.error("[ticketExHandler] ex = {}", e);
         HttpStatus status;
         Integer errorCode = -599;
+        String message;
 
-        if (e instanceof IllegalAccessException) {
+        if (e instanceof AuthenticationException) {
+            message = e.getMessage();
             status = HttpStatus.BAD_REQUEST;
             errorCode = -500;
-        } else if (e instanceof IllegalArgumentException) {
+        } else if (e instanceof MissingServletRequestParameterException) {
+            message = "쿼리 파라미터 all은 필수값입니다.";
             status = HttpStatus.BAD_REQUEST;
             errorCode = -511;
+        } else if (e instanceof IllegalArgumentException) {
+            message = e.getMessage();
+            status = HttpStatus.BAD_REQUEST;
+            errorCode = -512;
         } else { //위의 조건문에서 처리하지 못한, 알 수 없는 에러가 발생한 경우 Http 상태코드=500, errorCode=-599 로 반환
+            message = e.getMessage();
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
 
         log.info("[ticketExHandler] status={}, errorCode={}", status, errorCode);
-        ErrorResult errorResult = new ErrorResult(e.getMessage(), errorCode);
+        ErrorResult errorResult = new ErrorResult(message, errorCode);
         return new ResponseEntity(errorResult, status);
     }
 

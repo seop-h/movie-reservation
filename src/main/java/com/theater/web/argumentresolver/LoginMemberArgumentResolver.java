@@ -42,13 +42,14 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         HttpSession session = request.getSession(false);
         if (session == null) {
-            throw new IllegalAccessException("로그인하지 않은 사용자가 접근");
+            return null;
         }
 
         String loginMemberId = (String) session.getAttribute(SessionConst.LOGIN_MEMBER_ID);
         if (loginMemberId == null) {
-            throw new IllegalAccessException("로그인하지 않은 사용자가 접근");
+            return null;
         }
+
         log.info("@Login: member id={}", loginMemberId);
         if (String.class.isAssignableFrom(parameter.getParameterType())) { //@Login이 붙은 파라미터의 타입이 String이면 아이디를 반환
             return loginMemberId;

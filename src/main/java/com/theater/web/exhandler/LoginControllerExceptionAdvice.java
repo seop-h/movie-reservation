@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.security.sasl.AuthenticationException;
+
 @RestControllerAdvice(assignableTypes = {LoginController.class})//LoginController에서 예외가 발생하면 모두 이곳으로 옴
 @Slf4j
 public class LoginControllerExceptionAdvice {
@@ -19,9 +21,9 @@ public class LoginControllerExceptionAdvice {
         HttpStatus status;
         Integer errorCode = null;
 
-        if (e instanceof IllegalAccessException) {
+        if (e instanceof AuthenticationException) {
             status = HttpStatus.BAD_REQUEST;
-            errorCode = -111;
+            errorCode = -100;
         } else { //위의 조건문에서 처리하지 못한, 알 수 없는 에러가 발생한 경우 Http 상태코드=500, errorCode=-199 로 반환
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
