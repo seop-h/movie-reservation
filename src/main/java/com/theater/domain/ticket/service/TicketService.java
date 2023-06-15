@@ -9,6 +9,7 @@ import com.theater.domain.ticket.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.management.AttributeNotFoundException;
 import java.util.List;
 
 @Service
@@ -19,11 +20,12 @@ public class TicketService {
     private final MemberRepository memberRepository;
     private final ScheduleRepository scheduleRepository;
 
-    public Ticket buy(String memberId, Ticket ticket) {
+    public Ticket buy(String memberId, Ticket ticket) throws AttributeNotFoundException {
         Member member = memberRepository.findById(memberId);
         int money = member.getMoney();
 
         Schedule schedule = scheduleRepository.findByKey(ticket.getScheduleKey());
+        if (schedule == null) throw new AttributeNotFoundException("일치하는 상영일정이 없습니다.");
         int price = schedule.getPrice();
 
         String seatState = schedule.getSeatState();
